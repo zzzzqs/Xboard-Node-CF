@@ -1,0 +1,6 @@
+.env
+NF-*.md
+*.log
+tmp/
+.tmp/
+dist/

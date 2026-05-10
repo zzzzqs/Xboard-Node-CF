@@ -1,0 +1,10 @@
+services:
+  xboard-node-cf:
+    image: ghcr.io/zzzzqs/xboard-node-cf:latest
+    restart: unless-stopped
+    environment:
+      PANEL_URL: https://proxy.199655.xyz
+      PANEL_TOKEN: change-me
+      NODE_ID: "9"
+      ARGO_HOST: v-nf-us-1.199655.xyz
+      ARGO_TOKEN: change-me
