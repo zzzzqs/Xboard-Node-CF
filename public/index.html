@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>低碳生活，从今天开始</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --leaf: #1f7a4d;
+        --moss: #6d8f3d;
+        --sky: #d8eef2;
+        --paper: #f7f5ed;
+        --ink: #17231d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, var(--sky) 0%, var(--paper) 62%);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(920px, calc(100% - 40px));
+        padding: 56px 0;
+      }
+
+      .scene {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .mark {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 48% 44%, #f7f5ed 0 12%, transparent 13%),
+          conic-gradient(from 128deg, #1f7a4d, #79a84d, #d8b64a, #1f7a4d);
+        box-shadow: inset 0 0 0 18px rgba(255, 255, 255, .52);
+        position: relative;
+      }
+
+      .mark::before,
+      .mark::after {
+        content: "";
+        position: absolute;
+        background: var(--paper);
+      }
+
+      .mark::before {
+        width: 44%;
+        height: 18%;
+        left: 28%;
+        top: 41%;
+        border-radius: 999px;
+        transform: rotate(-28deg);
+      }
+
+      .mark::after {
+        width: 18%;
+        height: 46%;
+        left: 50%;
+        top: 26%;
+        border-radius: 999px;
+        transform: rotate(28deg);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(40px, 8vw, 82px);
+        line-height: .98;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 24px 0 0;
+        max-width: 620px;
+        font-size: clamp(18px, 2.4vw, 24px);
+        line-height: 1.65;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .pill {
+        border: 1px solid rgba(23, 35, 29, .18);
+        border-radius: 999px;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, .46);
+        font-size: 15px;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding: 36px 0;
+        }
+
+        .scene {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+
+        .mark {
+          width: min(280px, 72vw);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="scene" aria-label="环保倡议">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>让地球轻一点</h1>
+          <p>少一点浪费，多一点循环；少一点无谓消耗，多一点长久的耐心。环保不是遥远的口号，是每天顺手关灯、少用一次性用品、珍惜每一份资源。</p>
+          <div class="actions" aria-label="行动建议">
+            <span class="pill">节约能源</span>
+            <span class="pill">减少塑料</span>
+            <span class="pill">低碳出行</span>
+            <span class="pill">重复使用</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

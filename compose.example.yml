@@ -2,6 +2,8 @@ services:
   xboard-node-cf:
     image: ghcr.io/zzzzqs/xboard-node-cf:latest
     restart: unless-stopped
+    ports:
+      - "3000:3000"
     environment:
       PANEL_URL: https://proxy.199655.xyz
       PANEL_TOKEN: change-me

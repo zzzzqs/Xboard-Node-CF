@@ -8,6 +8,9 @@ The original Xboard-Node config remains compatible. Mount
 `/etc/xboard-node/config.yml` exactly as before, or let the entrypoint generate
 one from environment variables.
 
+The image also serves a small public web page on port `3000`, which is useful
+for platforms that require one exposed HTTP port.
+
 ## Supported Use Case
 
 This image is intended for HTTP/WebSocket based nodes:
@@ -66,6 +69,10 @@ Service: http://localhost:8080
 public hostname. Use a different hostname and tunnel token for each deployed
 node.
 
+Port `3000` is only the public environmental page for Northflank. Do not point
+the Cloudflare Tunnel service to `3000`; keep the tunnel service on
+`http://localhost:8080`.
+
 ## Northflank
 
 Use the built image:
@@ -84,8 +91,9 @@ ARGO_HOST=v-nf-us-1.199655.xyz
 ARGO_TOKEN=your-cloudflare-tunnel-token
 ```
 
-If Northflank requires a port, expose `8080` as HTTP. Cloudflare Tunnel connects
-outbound, so the public Northflank URL is not used by clients.
+Expose port `3000` as HTTP in Northflank. Visiting the Northflank public URL
+will show a simple environmental page. Cloudflare Tunnel connects outbound to
+the node service on `localhost:8080`, so clients do not use the Northflank URL.
 
 ## Local Test
 

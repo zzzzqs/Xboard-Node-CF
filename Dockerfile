@@ -15,9 +15,12 @@ RUN apk add --no-cache bash ca-certificates curl python3 tzdata \
     && cloudflared --version
 
 COPY docker-entrypoint.sh /usr/local/bin/xboard-node-cf-entrypoint
+COPY public /var/www/public
 RUN chmod +x /usr/local/bin/xboard-node-cf-entrypoint \
-    && mkdir -p /etc/xboard-node /var/log/xboard-node-cf
+    && mkdir -p /etc/xboard-node /var/log/xboard-node-cf /var/www/public
 
 WORKDIR /etc/xboard-node
+
+EXPOSE 3000
 
 ENTRYPOINT ["xboard-node-cf-entrypoint"]

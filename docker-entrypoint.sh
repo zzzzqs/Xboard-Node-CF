@@ -3,9 +3,11 @@ set -Eeuo pipefail
 
 CONFIG_PATH="${CONFIG_PATH:-/etc/xboard-node/config.yml}"
 LOG_DIR="${LOG_DIR:-/var/log/xboard-node-cf}"
+WEB_ROOT="${WEB_ROOT:-/var/www/public}"
+WEB_PORT="${WEB_PORT:-${PORT:-3000}}"
 XBOARD_NODE_ARGS=()
 
-mkdir -p "$(dirname "$CONFIG_PATH")" "$LOG_DIR"
+mkdir -p "$(dirname "$CONFIG_PATH")" "$LOG_DIR" "$WEB_ROOT"
 
 value_of() {
   local name="$1"
@@ -132,7 +134,7 @@ start_cloudflared() {
   fi
 
   if [ -z "$url" ]; then
-    url="http://localhost:${TUNNEL_LOCAL_PORT:-${PORT:-8080}}"
+    url="http://localhost:${TUNNEL_LOCAL_PORT:-8080}"
   fi
 
   if [ -n "$token" ]; then
@@ -189,9 +191,18 @@ EOF
   echo "Cloudflare tunnel disabled; set CF_TUNNEL_TOKEN or ARGO_TOKEN to enable it."
 }
 
+start_web_page() {
+  echo "Starting public web page on 0.0.0.0:${WEB_PORT}."
+  python3 -m http.server "$WEB_PORT" --bind 0.0.0.0 --directory "$WEB_ROOT" &
+  WEB_PID="$!"
+}
+
 shutdown() {
   local code=$?
   trap - INT TERM EXIT
+  if [ -n "${WEB_PID:-}" ]; then
+    kill "$WEB_PID" 2>/dev/null || true
+  fi
   if [ -n "${XBOARD_NODE_PID:-}" ]; then
     kill "$XBOARD_NODE_PID" 2>/dev/null || true
   fi
@@ -241,10 +252,12 @@ else
 fi
 
 CLOUDFLARED_PID=""
+WEB_PID=""
+start_web_page
 start_cloudflared
 
 echo "Starting xboard-node ${XBOARD_NODE_ARGS[*]}"
 xboard-node "${XBOARD_NODE_ARGS[@]}" &
 XBOARD_NODE_PID="$!"
 
-wait -n "$XBOARD_NODE_PID" ${CLOUDFLARED_PID:-}
+wait -n "$WEB_PID" "$XBOARD_NODE_PID" ${CLOUDFLARED_PID:-}
